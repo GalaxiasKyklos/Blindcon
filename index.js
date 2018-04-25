@@ -7,7 +7,7 @@ const handler = (req, res) => {
 
 const PROD = false;
 const lex = require('greenlock-express').create({
-  version: 'v02',
+  version: 'v01',
   server: PROD ? 'https://acme-v01.api.letsencrypt.org/directory' : 'staging',
  
   approveDomains: (opts, certs, cb) => {
