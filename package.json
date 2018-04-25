@@ -1,0 +1,15 @@
+{
+  "name": "Blindcon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:GalaxiasKyklos/Blindcon.git",
+  "author": "Saúl Ponce <saul_enrique-7285-96@hotmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "greenlock-express": "^2.1.1"
+  },
+  "scripts": {
+    "start": "nodemon ."
+  }
+}
