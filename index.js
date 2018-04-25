@@ -1,8 +1,8 @@
 const http = require('http');
 const https = require('https');
 
-const handler = (req, res) => {
-  res.end('Hello World!');
+function handler(req, res) {
+  res.status(200).send('Hello World!');
 }
 
 const PROD = false;
