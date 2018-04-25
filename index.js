@@ -11,12 +11,13 @@ const frontProxy = proxy('/', {
   target: 'http://localhost:3000',
 })
 
-app.use(apiProxy)
-app.use(frontProxy)
-
 app.use(express.static(__dirname, {
   dotfiles: 'allow',
 }))
+
+app.use(apiProxy)
+app.use(frontProxy)
+
 
 app.listen(80, () => {
   console.log('HTTP server running on port 80')
