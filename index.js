@@ -2,7 +2,7 @@ const express = require('express')
 const proxy = require('http-proxy-middleware')
 const https = require('https')
 const http = require('http')
-const fs = require('fs');
+const fs = require('fs')
 
 const app = express()
 
@@ -11,9 +11,9 @@ const cert = fs.readFileSync('/etc/letsencrypt/live/blindcon.galaxiaskyklos.com/
 const ca = fs.readFileSync('/etc/letsencrypt/live/blindcon.galaxiaskyklos.com/chain.pem', 'utf8')
 
 const credentials = {
-	key,
-	cert,
-	ca,
+  key,
+  cert,
+  ca,
 }
 
 const apiProxy = proxy('/api', {
@@ -34,10 +34,12 @@ app.use(frontProxy)
 const httpsServer = https.createServer(credentials, app)
 
 http.createServer((req, res) => {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80);
+  res.writeHead(301, {
+    'Location': `https://${req.headers['host']}${req.url}`,
+  })
+  res.end()
+}).listen(80)
 
 httpsServer.listen(443, () => {
-	console.log('HTTPS Server running on port 443');
+  console.log('HTTPS Server running on port 443')
 })
