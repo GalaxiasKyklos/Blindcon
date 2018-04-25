@@ -32,11 +32,11 @@ app.use(apiProxy)
 app.use(frontProxy)
 
 const httpsServer = https.createServer(credentials, app)
-const httpServer = http.createServer(app)
 
-httpServer.listen(80, () => {
-	console.log('HTTPS Server running on port 80');
-})
+http.createServer((req, res) => {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
 
 httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
