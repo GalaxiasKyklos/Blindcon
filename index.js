@@ -24,9 +24,9 @@ const frontProxy = proxy('/', {
   target: 'http://localhost:3000',
 })
 
-app.use(express.static(__dirname, {
-  dotfiles: 'allow',
-}))
+// app.use(express.static(__dirname, {
+//   dotfiles: 'allow',
+// }))
 
 app.use(apiProxy)
 app.use(frontProxy)
