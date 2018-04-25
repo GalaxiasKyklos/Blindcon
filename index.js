@@ -1,34 +1,27 @@
-const http = require('http');
-const https = require('https');
+const express = require('express')
+const request = require('request')
 
-function handler(req, res) {
-  res.status(200).send('Hello World!');
-}
+const app = express()
 
-const PROD = false;
-const lex = require('greenlock-express').create({
-  version: 'v01',
-  server: PROD ? 'https://acme-v01.api.letsencrypt.org/directory' : 'staging',
- 
-  approveDomains: (opts, certs, cb) => {
-    if (certs) {
-      // change domain list here
-      opts.domains = ['blindcon.galaxiaskyklos.com']
-    } else { 
-      // change default email to accept agreement
-      opts.email = 'saul_enrique-7285-96@hotmail.com'; 
-      opts.agreeTos = true;
-    }
-    cb(null, { options: opts, certs: certs });
+app.use(express.static(__dirname, {
+  dotfiles: 'allow'
+}))
+
+app.listen(80, () => {
+  console.log('HTTP server running on port 80')
+})
+
+app.use('/', (req, res) => {
+  const port = req.url.includes('api') ? 3001 : 3000
+  const url = `http://localhost:${port}${req.url}`
+  let r = null
+  if (req.method === 'POST') {
+    r = request.post({
+      uri: url,
+      json: req.body
+    })
+  } else {
+    r = request(url)
   }
-});
-
-const middlewareWrapper = lex.middleware;
-
-https.createServer(
-  lex.httpsOptions, 
-  middlewareWrapper(handler)
-).listen(433);
-
-const redirectHttps = require('redirect-https');
-http.createServer(lex.middleware(redirectHttps())).listen(80);
+  req.pipe(r).pipe(res)
+})
